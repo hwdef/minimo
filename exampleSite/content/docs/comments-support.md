@@ -1,5 +1,6 @@
 ---
 date: 2018-03-29T09:00:00+06:00
+lastmod: 2019-01-06T23:30:00+06:00
 title: Comments Support
 authors: ["muniftanjim"]
 categories:
@@ -42,7 +43,7 @@ _Of course, you'll also need to setup a comment system ( [Disqus](#disqus) or [S
 
 ## Setting Up Comment System
 
-Minimo supports both **[Disqus](https://disqus.com/)** and **[Staticman](https://staticman.net/)** to be used as your site's comment system.
+Minimo currently supports **[Disqus](https://disqus.com/)**, **[Isso](https://posativ.org/isso/)**, **[Staticman](https://staticman.net/)** and **[Utterances](https://utteranc.es)** to be used as your site's comment system.
 
 ### Disqus
 
@@ -56,9 +57,25 @@ disqusShortname = ""
 
 And that's all!
 
+### Isso
+
+Isso is a lightweight alternative to Disqus. You need to have a Isso server running somewhere, then set up the following options in your `config.toml` file:
+
+```toml
+[params.comments.isso]
+enable = true
+scriptSrc = "https://isso.example.com/js/embed.min.js"
+dataAttrs = "data-isso='https://isso.example.com data-isso-require-author='true'"
+```
+
+- `params.comments.isso` [`Map`]:
+  - `enable` [`Boolean`]: Enable Isso
+  - `scriptSrc` [`String`]: URL of the Isso integration script.
+  - `dataAttrs` [`String`]: Data attributes to add to the Isso `<script>` tag. Optional, but the Isso documentation recommends to at least include the `data-isso` attribute.
+
 ### Staticman
 
-_Staticman only supports GitHub. So, if your site's repository is not hosted in GitHub, it won't work._
+For up-to-date information, check out the [Documentation Site](https://staticman.net) and the [Public Repository](https://github.com/eduardoboucas/staticman) of Staticman.
 
 #### Configure Minimo for Staticman
 
@@ -69,8 +86,6 @@ First of all, set up the following options in your `config.toml` file:
 enable = true
 apiEndpoint = "https://api.staticman.net/v2/entry"
 maxDepth = 2
-
-[params.comments.staticman.github]
 username = "MunifTanjim"
 repository = "minimo"
 branch = "master"
@@ -80,10 +95,9 @@ branch = "master"
   - `enable` [`Boolean`]: Enable Staticman
   - `apiEndpoint` [`String`]: API endpoint for Staticman instance
   - `maxDepth` [`Integer`]: Maximum allowed comments depth
-- `params.comments.staticman.github` [`Map`]:
-  - `username` [`String`]: Your GitHub Username
-  - `repository` [`String`]: Name of your Site's GitHub Repository
-  - `branch` [`String`]: Branch name of Site's GitHub Repository
+  - `username` [`String`]: Your Git Username
+  - `repository` [`String`]: Name of your Site's Git Repository
+  - `branch` [`String`]: Branch name of Site's Git Repository
 
 #### Staticman Configuration File
 
@@ -116,3 +130,30 @@ _[ Replace the `{github.username}` and `{github.repository}` with your GitHub us
 If all goes well, you should receive a message saying `OK`!
 
 And you should be good to go!
+
+### Utterances
+
+_Utterances only supports GitHub. So, if your site's repository is not hosted in GitHub, it won't work._
+
+For using Utterances, set up the following options in your `config.toml` file:
+
+```toml
+[params.comments.utterances]
+enable = true
+issueTerm = "pathname" # pathname / url / title
+
+[params.comments.utterances.github]
+username = "MunifTanjim"
+repository = "minimo"
+```
+
+- `params.comments.utterances` [`Map`]:
+  - `enable` [`Boolean`]: Enable Utterances
+  - `issueTerm` [`String`]: Entry to Issue mapping option _(`pathname` / `url` / `title`)_
+- `params.comments.utterances.github` [`Map`]:
+  - `username` [`String`]: Your GitHub Username
+  - `repository` [`String`]: Name of your Site's GitHub Repository
+
+Check _[utteranc.es](https://utteranc.es)_ for more information.
+
+That should do it!
