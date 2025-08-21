@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $color__accent: #ffcd00;
 
 $color__bluegrey-900: #263238;
@@ -36,4 +38,4 @@ $color__link-hover: $color__text-main;
 
 $color__border-input: $color__grey;
 $color__border-table: $color__grey;
-$color__border-code: darken($color__background-code, 7);
+$color__border-code: color.adjust($color__background-code, $lightness: -7%);

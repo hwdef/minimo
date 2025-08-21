@@ -45,7 +45,8 @@ const config = {
   output: {
     filename: '[name].[chunkhash:8].js',
     chunkFilename: '[name].[chunkhash:8].js',
-    path: path.join(__dirname, 'static', 'assets/js')
+    path: path.join(__dirname, 'static', 'assets/js'),
+    clean: true
   },
   module: {
     rules: [
@@ -68,23 +69,25 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
+              importLoaders: 2
             }
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [
-                autoprefixer(),
-                'production' === node_env
-                  ? cssnano({
-                      preset: [
-                        'default',
-                        { discardComments: { removeAllButFirst: true } }
-                      ]
-                    })
-                  : null
-              ].filter(Boolean)
+              postcssOptions: {
+                plugins: [
+                  autoprefixer(),
+                  'production' === node_env
+                    ? cssnano({
+                        preset: [
+                          'default',
+                          { discardComments: { removeAllButFirst: true } }
+                        ]
+                      })
+                    : null
+                ].filter(Boolean)
+              }
             }
           },
           'sass-loader'
