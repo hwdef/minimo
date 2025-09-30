@@ -1,3 +1,13 @@
 <style>
-:root{--color-accent: {{- .Site.Params.settings.accentColor | default "#ffcd00" -}};}
+:root {
+  color-scheme: light dark;
+  --accent: {{- .Site.Params.settings.accentColor | default "#d38b0c" -}};
+  --reading-width: {{- .Site.Params.settings.readingWidth | default "720px" -}};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
 </style>

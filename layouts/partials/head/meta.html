@@ -1,7 +1,8 @@
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='{{ partial "data/description" . }}'>
-<meta name='theme-color' content='{{- .Site.Params.settings.accentColor | default "#ffcd00" -}}'>
+<meta name='theme-color' media='(prefers-color-scheme: light)' content='{{- .Site.Params.settings.themeColorLight | default "#f7f4ed" -}}'>
+<meta name='theme-color' media='(prefers-color-scheme: dark)' content='{{- .Site.Params.settings.themeColorDark | default "#0f0f0f" -}}'>
 
 {{ partial "head/opengraph" . }}
 

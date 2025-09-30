@@ -1,0 +1,16 @@
+html[dir='rtl'] body {
+  direction: rtl;
+}
+
+html[dir='rtl'] .menu ul {
+  flex-direction: row-reverse;
+}
+
+html[dir='rtl'] .list-entry,
+html[dir='rtl'] .entry-content {
+  text-align: right;
+}
+
+html[dir='rtl'] .entry-content > p {
+  text-indent: 0;
+}

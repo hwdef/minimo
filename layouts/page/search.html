@@ -15,20 +15,17 @@
   </ul>
 </div>
 
-{{- with .Site.Params.search.client -}}
-  {{- if eq . "lunr" -}}
-  <script src='{{ ( print "search/lunr_idx.js?build=" ( now.Format "200601021504" ) ) | relLangURL }}'></script>
-  {{- else if eq . "algolia" -}}
-  <script>window.algolia = {
-    appId: '{{ $.Site.Params.search.algolia.appId }}',
-    indexName: '{{ $.Site.Params.search.algolia.indexName | default "minimo_site" }}',
-    searchApiKey: '{{ $.Site.Params.search.algolia.searchApiKey }}'
-  }</script>
-  {{- end -}}
-
-  {{- $scriptKey := ( print . "_search" ) -}}
-  {{- $scriptName := ( index $.Site.Data.assets $scriptKey ).js -}}
-  <script src='{{ print "assets/js/" $scriptName | relURL }}'></script>
+{{- $searchable := where .Site.RegularPages ".Params.searchable" "ne" false -}}
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "index" (slice) -}}
+{{- range $page := $searchable -}}
+  {{- $rawSummary := ( or $page.Params.description ($page.Summary | plainify) ) -}}
+  {{- $plainSummary := ( $rawSummary | plainify ) -}}
+  {{- $summary := cond (gt (len $plainSummary) 220) ($plainSummary | truncate 220) $plainSummary -}}
+  {{- $scratch.Set "index" (append ($scratch.Get "index") (dict "title" $page.Title "summary" $summary "permalink" $page.Permalink "date" ($page.Date.Format "2006-01-02"))) -}}
 {{- end -}}
+{{- $index := $scratch.Get "index" -}}
+<script type='application/json' id='search-index'>{{ $index | jsonify }}</script>
+<script src='{{ "js/search.js" | relURL }}' defer></script>
 
 {{ partial "footer" . }}
